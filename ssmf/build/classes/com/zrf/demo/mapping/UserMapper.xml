@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.cumymkj.dao.IUserDao" >
+  <resultMap id="BaseResultMap" type="com.zrf.demo.pojo.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="passWord" property="passWord" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, password
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dsm_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findUserByName" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	select * from dsm_user where username=#{userName}
+  </select>
+  <!-- <select id="login" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select * from dsm_user where username = #{userName} and password = #{passWord} 
+  </select> -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dsm_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.cumymkj.pojo.User" >
+	    insert into dsm_user (
+	    id, 
+	    username, 
+	    password
+	    )
+	    values(
+	    #{id,jdbcType=INTEGER}, 
+	    #{userName,jdbcType=VARCHAR}, 
+	    #{passWord,jdbcType=VARCHAR}
+	    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.cumymkj.pojo.User" >
+    insert into dsm_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{passWord,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.cumymkj.pojo.User" >
+    update dsm_user
+    <set >
+      <if test="userName != null" >
+        username = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{passWord,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.cn.cumymkj.pojo.User" >
+    update dsm_user
+    set username = #{userName,jdbcType=VARCHAR},
+      password = #{passWord,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,44 @@
+  <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.zrf.mybatis.dao.EmployeeMapper">
+    <select id="getEmpsByConditionIf" resultType="com.zrf.mybatis.bean.Employee">
+       select * from tbl_employee
+       <!-- where 1=1 -->
+       <where>
+       <if test="id!=null">
+          <!-- and id=#{id} -->
+          id=#{id}
+       </if>
+       <if test="lastName!=null &amp;&amp;lastName!=&quot;&quot;">
+        and last_name like #{lastName}
+        </if>
+        <if test="email!=null and email.trim()!=&quot;&quot;">
+           and email=#{email}    
+        </if>
+        <if test="gender==0 or gender==1">
+          and gender=#{gender}
+        </if>
+        </where>
+    </select>
+    <select id="getEmpsByConditionTrim" resultType="com.zrf.mybatis.bean.Employee">
+       select * from tbl_employee
+       <!-- where 1=1 -->
+       <trim prefix="where" suffixOverrides="and">
+       <if test="id!=null">
+          <!-- and id=#{id} -->
+          id=#{id} and
+       </if>
+       <if test="lastName!=null &amp;&amp;lastName!=&quot;&quot;">
+        last_name like #{lastName} and
+        </if>
+        <if test="email!=null and email.trim()!=&quot;&quot;">
+           email=#{email} and
+        </if>
+        <if test="gender==0 or gender==1">
+          gender=#{gender}
+        </if>
+        </trim>
+    </select>
+ </mapper>

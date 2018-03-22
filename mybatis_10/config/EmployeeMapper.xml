@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.zrf.mybatis.dao.EmployeeMapper">
+    <select id="getEmpById" resultType="emp" databaseId="mysql">
+       select * from tbl_employee where id=#{id}
+    </select>
+     <select id="getEmpById" resultType="com.zrf.mybatis.bean.Employee" databaseId="oracle">
+       select employee_id id,last_name lastName,EMAIL email from employees where employee_id=#{id}
+    </select>
+    
+    <insert id="addEmp" parameterType="com.zrf.mybatis.bean.Employee" useGeneratedKeys="true" keyProperty="id">
+       insert into tbl_employee(last_name,email,gender)values(#{lastName},#{email},#{gender})
+    </insert>
+    <update id="updateEmp">
+      update tbl_employee set last_name=#{lastName},email=#{email},gender=#{gender} where id=#{id}
+    </update>
+    <delete id="deleteEmpById">
+      delete from tbl_employee where id=#{id}
+    </delete>
+    <select id="getEmpByIdAndLastName" resultType="com.zrf.mybatis.bean.Employee">
+      select * from tbl_employee where id=#{id} and last_name=#{lastName}
+    </select>
+ </mapper>
